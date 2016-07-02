@@ -14,11 +14,12 @@ tmp
 .idea
 
 # sqlite db file
-db1
+.sqlite3
 
 # Mac OS specific files
 .DS_STORE
 
 # Sublime projects
-*.sublime-project
-*.sublime-workspace
+.sublime-project
+.sublime-workspace
+

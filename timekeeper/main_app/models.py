@@ -21,3 +21,10 @@ class Task(models.Model):
     def __str__(self):
         return self.name
 
+
+class Settings(models.Model):
+
+    owner = models.OneToOneField(User)
+    session_length_min = models.PositiveSmallIntegerField(default=20)
+    break_length_min = models.PositiveSmallIntegerField(default=5)
+
