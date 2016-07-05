@@ -14,7 +14,7 @@ tmp
 .idea
 
 # sqlite db file
-.sqlite3
+*.sqlite3
 
 # Mac OS specific files
 .DS_STORE
