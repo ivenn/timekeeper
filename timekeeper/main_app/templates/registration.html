@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Registration{% endblock %}
+{% block content %}
+	<p>Registration</p>
+	<form action="." method="post">
+		{{ form.as_p }}
+		{% csrf_token %}
+		<p><input type="submit" value="Register"></p>
+	</form>
+{% endblock %}
