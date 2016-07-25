@@ -24,7 +24,7 @@ class Task(models.Model):
 
 class Settings(models.Model):
 
-    owner = models.OneToOneField(User)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     session_length_min = models.PositiveSmallIntegerField(default=20)
     break_length_min = models.PositiveSmallIntegerField(default=5)
 

@@ -1,72 +1,29 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from .forms import LoginForm, RegistrationForm
-from .models import Settings
+from rest_framework import viewsets, authentication, permissions
+
+from .models import User
+from .serializers import UserSerializer
 
 
-def index(request):
-    return render(request, 'index.html', {})
+class DefaultsMixin(object):
+    """Default settings for view authentication, permissions, filtering and pagination."""
+
+    authentication_classes = (
+        authentication.BasicAuthentication,
+        authentication.TokenAuthentication,
+    )
+    permission_classes = (
+        permissions.IsAuthenticated,
+    )
+    paginate_by = 25
+    paginate_by_param = 'page_size'
+    max_paginate_by = 100
 
 
-def user_login(request):
+class UserViewSet(DefaultsMixin, viewsets.ReadOnlyModelViewSet):
+    """API endpoint for listing users."""
 
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(username=cd['username'],
-                                password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return redirect('personal')
-                else:
-                    return HttpResponse('Disabled account')
-            else:
-                return HttpResponse('Invalid login')
-    else:
-        form = LoginForm()
-
-    return render(request, 'login.html', {'form': form})
-
-
-def user_registration(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.set_password(form.cleaned_data['password'])
-            new_user.save()
-            Settings.objects.create(owner=new_user)
-            return redirect('login')
-    else:
-        form = RegistrationForm()
-
-    return render(request, 'registration.html', {'form': form})
-
-
-@login_required
-def user_personal(request):
-    username = request.user.username
-    return render(request, 'personal.html', {'username': username})
-
-
-@login_required
-def user_settings(request):
-    username = request.user.username
-    return render(request, 'settings.html', {'username': username})
-
-
-@login_required
-def user_reports(request):
-    username = request.user.username
-    return render(request, 'reports.html', {'username': username})
-
-
-@login_required
-def user_logout(request):
-    logout(request)
-    return redirect('index')
-
+    lookup_field = User.USERNAME_FIELD
+    lookup_url_kwarg = User.USERNAME_FIELD
+    queryset = User.objects.order_by(User.USERNAME_FIELD)
+    serializer_class = UserSerializer
+    search_fields = (User.USERNAME_FIELD, )
