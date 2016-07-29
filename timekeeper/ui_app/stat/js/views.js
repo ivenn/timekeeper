@@ -1,6 +1,7 @@
 (function ($, Backbone, _, app){
-    var HomepageView = Backbone.View.extend({
-        templateName: '#home-template',
+
+    var TemplateView = Backbone.View.extend({
+        templateName: '',
         initialize: function(){
             this.template = _.template($(this.templateName).html());
         },
@@ -14,7 +15,17 @@
         }
     });
 
+    var HomepageView = TemplateView.extend({
+        templateName: '#home-template',
+    });
+
+    var LoginView = TemplateView.extend({
+        id: 'login',
+        templateName: '#login-template',
+    });
+
     app.views.HomepageView = HomepageView;
+    app.views.LoginView = LoginView;
 
 })(jQuery, Backbone, _, app);
 
