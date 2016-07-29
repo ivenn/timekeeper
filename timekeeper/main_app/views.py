@@ -1,7 +1,7 @@
 from rest_framework import viewsets, authentication, permissions
 
-from .models import User
-from .serializers import UserSerializer
+from .models import User, Settings, Task, Category
+from .serializers import UserSerializer, SettingsSerializer, TaskSerializer, CategorySerializer
 
 
 class DefaultsMixin(object):
@@ -11,9 +11,11 @@ class DefaultsMixin(object):
         authentication.BasicAuthentication,
         authentication.TokenAuthentication,
     )
+
     permission_classes = (
         permissions.IsAuthenticated,
     )
+
     paginate_by = 25
     paginate_by_param = 'page_size'
     max_paginate_by = 100
@@ -27,3 +29,21 @@ class UserViewSet(DefaultsMixin, viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.order_by(User.USERNAME_FIELD)
     serializer_class = UserSerializer
     search_fields = (User.USERNAME_FIELD, )
+
+
+class SettingsViewSet(DefaultsMixin, viewsets.ModelViewSet):
+
+    queryset = Settings.objects.all()
+    serializer_class = SettingsSerializer
+
+
+class CategoryViewSet(DefaultsMixin, viewsets.ModelViewSet):
+
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class TaskViewSet(DefaultsMixin, viewsets.ModelViewSet):
+
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer

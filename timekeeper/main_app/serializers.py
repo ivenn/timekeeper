@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
-from .models import User
+from .models import User, Settings, Task, Category
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -17,4 +17,27 @@ class UserSerializer(serializers.ModelSerializer):
         request = self.context['request']
         username = obj.get_username()
         return {'self': reverse('user-detail', kwargs={User.USERNAME_FIELD: username}, request=request), }
+
+
+class SettingsSerializer(serializers.ModelSerializer):
+
+    user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+
+    class Meta:
+        model = Settings
+        fields = ('user', 'session_length', 'break_length')
+
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = ('name', 'user')
+
+
+class TaskSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Task
+        fields = ('name', 'category', 'started', 'duration')
 
