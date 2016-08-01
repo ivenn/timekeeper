@@ -37,8 +37,8 @@
     });
 
 
-    var Sesion = Backbone.Model.extend({
-        default: {
+    var Session = Backbone.Model.extend({
+        defaults: {
             token: null
         },
         initialize: function (option) {
@@ -64,7 +64,8 @@
             this.save(null);
         },
         authenticated: function () {
-            return this.get('toke') !== null;
+            console.log('Current token is: ' + this.get('token'))
+            return this.get('token') !== null;
         },
         _setupAuth: function (settings, originalOptions, xhr) {
             if (this.authenticated()){
@@ -77,6 +78,6 @@
 
     });
 
-    app.session = new Sesion();
+    app.session = new Session();
 
 })(jQuery, Backbone, _, app);

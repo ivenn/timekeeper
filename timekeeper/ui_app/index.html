@@ -6,12 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" >
-    <link rel="shortcut icon" href="static/favicon.ico">
-    <link rel="icon" href="static/favicon.ico">
+    <link rel="shortcut icon" href="stat/favicon.ico">
+    <link rel="icon" href="stat/favicon.ico">
     <!-- <link rel="stylesheet" type="text/css" href="static/styles.css"> -->
     <script type='text/html' id='home-template'>
         <h1>Welcome to Time Keeper site !</h1>
-
+    </script>
+    <script type=="text/html" id="login-template">
+        <form action="" method="post">
+            <input id="id_username" type='text' name='username' maxlenght='30' required/>
+            <label for="id_username"">Username</label>
+            <label for="id_password">Password</label>
+            <input id="id_password" type='text' name='password' maxlenght='30' required/>
+            <button type='submit'>Login</button>
+        </form>
     </script>
   </head>
   <body>
@@ -44,7 +52,9 @@
     "models": {},
     "collections": {},
     "views": {},
-    "router": null
+    "router": null,
+    "apiRoot": "http://127.0.0.1:8000/api/",
+    "apiLogin": "http://127.0.0.1:8000/api/token"
    }
     </script>
     <script src="stat/js/app.js"></script>
