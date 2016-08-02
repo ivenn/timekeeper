@@ -88,8 +88,29 @@
         }
     });
 
+    var HeaderView = TemplateView.extend({
+        templateName: '#header-menu-template',
+        tagName: 'ul',
+        attributes : {
+           id    : 'header-menu',
+           class : 'nav navbar-nav navbar-right'
+     },
+        events: {
+            'click a.logout': 'logout'
+        },
+        getContext: function (){
+            return {authenticated: app.session.authenticated()};
+        },
+        logout: function (event) {
+            event.preventDefault();
+            app.session.delete();
+            window.location = '/';
+        }
+    })
+
     app.views.HomepageView = HomepageView;
     app.views.LoginView = LoginView;
+    app.views.HeaderView = HeaderView;
 
 })(jQuery, Backbone, _, app);
 
