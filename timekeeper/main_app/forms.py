@@ -1,1 +1,12 @@
-from django import forms
+
+
+class SettingsFilter:
+	pass
+
+
+class CategoryFilter: 
+	pass
+
+
+class TaskFilter:
+	pass

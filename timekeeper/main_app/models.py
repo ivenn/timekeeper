@@ -15,8 +15,9 @@ class Task(models.Model):
 
     name = models.CharField(max_length=250)
     category = models.ForeignKey(Category)
+    user = models.ForeignKey(User)
     started = models.DateTimeField()
-    duration = models.PositiveSmallIntegerField(default=1)  # in minutes
+    duration = models.PositiveSmallIntegerField()  # in minutes
 
     def __str__(self):
         return self.name
@@ -29,4 +30,4 @@ class Settings(models.Model):
     break_length = models.PositiveSmallIntegerField(default=5)  # in minutes
 
     def __str__(self):
-        return "%s/%s " % (session_length, break_length)
+        return "%s/%s " % (self.session_length, self.break_length)

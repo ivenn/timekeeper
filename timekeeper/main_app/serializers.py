@@ -15,29 +15,43 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_links(self, obj):
         request = self.context['request']
-        username = obj.get_username()
-        return {'self': reverse('user-detail', kwargs={User.USERNAME_FIELD: username}, request=request), }
+        return {'self': reverse('user-detail',
+                                kwargs={User.USERNAME_FIELD: obj.get_username()},
+                                request=request), }
 
 
 class SettingsSerializer(serializers.ModelSerializer):
 
-    user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    #user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    links = serializers.SerializerMethodField()
 
     class Meta:
         model = Settings
-        fields = ('user', 'session_length', 'break_length')
+        fields = ('session_length', 'break_length', 'links')
+
+    def get_links(self, obj):
+        return {}
 
 
 class CategorySerializer(serializers.ModelSerializer):
 
+    links = serializers.SerializerMethodField()
+
     class Meta:
         model = Category
-        fields = ('name', 'user')
+        fields = ('id', 'name', 'links')
+
+    def get_links(self, obj):
+        return {}
 
 
 class TaskSerializer(serializers.ModelSerializer):
 
+    links = serializers.SerializerMethodField()
+
     class Meta:
         model = Task
-        fields = ('name', 'category', 'started', 'duration')
+        fields = ('id', 'name', 'category', 'started', 'duration', 'links')
 
+    def get_links(self, obj):
+        return {}
