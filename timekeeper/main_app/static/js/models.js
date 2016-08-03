@@ -64,7 +64,7 @@
             this.save(null);
         },
         authenticated: function () {
-            console.log('Current token is: ' + this.get('token'))
+            console.log('Current token is: ' + this.get('token'));
             return this.get('token') !== null;
         },
         _setupAuth: function (settings, originalOptions, xhr) {
@@ -79,5 +79,41 @@
     });
 
     app.session = new Session();
+
+    // REST API description
+
+    var BaseModel = Backbone.Model.extend({
+        url: function () {
+            var links = this.get('links'),
+                url = links && links.self;
+            if (!url) {
+                url = Backbone.Model.prototype.url.call(this);
+            }
+            return url;
+        }
+    })
+
+    app.models.UserSetting = BaseModel.extend({});
+    app.models.Task = BaseModel.extend({});
+    app.models.Category = BaseModel.extend({});
+
+    app.collections.ready = $.getJSON(app.apiRoot);
+    app.collections.ready.done(function (data) {
+        app.collections.Tasks = Backbone.collection.extend({
+            model: app.models.Task,
+            url: data.tasks,
+        });
+        app.tasks = new app.collections.Tasks;
+        app.collections.Categories = Backbone.collection.extend({
+            model: app.model.Category,
+            url: data.category
+        });
+        app.categories = new app.collections.Categories();
+        app.collections.UserSettings = Backbone.collection.extend({
+            model: app.model.UserSetting,
+            url: data.settings
+        });
+        app.settings = new app.collections.UserSettings();
+    })
 
 })(jQuery, Backbone, _, app);
