@@ -19,7 +19,7 @@
         events: {
             'submit form' : 'submit'
         },
-        errorTemplate: _.template('<span class="error"><%-msg %></span>'),
+        errorTemplate: _.template('<div class="alert alert-danger alert-dismissible error" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Error!</strong> <%- msg %></div>'),
         clearErrors: function () {
             $('.error', this.form).remove();
         },
