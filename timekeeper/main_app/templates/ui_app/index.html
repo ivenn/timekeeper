@@ -18,7 +18,18 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type='text/html' id='home-template'>
-        <h1>Welcome to Time Keeper site !</h1>
+        <h3>Tasks</h3>
+        <% if (tasks != null) { %>
+        <div class="tasks">
+            <% _.each(tasks.models, function (task) { %>
+                <a href="#task" class="task">
+                    <% task.get('name') %> <br>
+                </a>
+            <% }); %>
+        </div>
+        <% } else { %>
+        <h4 class="loading">Loading...</h4>
+        <% } %>
     </script>
     <script type=="text/html" id="login-template">
         <form action="" method="post" class="form" role="form">
@@ -39,12 +50,19 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> USER_NAME <b class="caret"></b>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
-              <li><a href='#'>Settings</a></li>
+              <li><a href='#' id="btn_settings">Settings</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#" class='logout '>Logout</a></li>
             </ul>
           </li>
         <% } %>
+    </script>
+    <script type="text/html" id="settings-template">
+    <h3>Settings</h3>
+        <label for="id_session_lenght">Session Lenght</label>
+        <input id="id_session_lenght" type='number'>
+        <label for="id_session_break">Session Lenght</label>
+        <input id="id_session_break" type='number'>
     </script>
   </head>
   <body>

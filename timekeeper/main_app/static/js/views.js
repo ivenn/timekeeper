@@ -63,8 +63,29 @@
 
     });
 
+    var SettingsView = TemplateView.extend({
+        templateName: '#setttings-template',
+        initialize: function (options) {
+            var self = this;
+            TemplateView.prototype.initialize.apply(this, arguments)
+        }
+    });
+
     var HomepageView = TemplateView.extend({
-        templateName: '#home-template'
+        templateName: '#home-template',
+        initialize: function (options) {
+            var self = this;
+            TemplateView.prototype.initialize.apply(this, arguments)
+            app.collections.ready.done(function () {
+                app.tasks.fetch({
+                    success: $.proxy(self.render, self)
+                });
+            });
+        },
+        getContext: function () {
+            return {'tasks': app.tasks || null};
+        }
+
     });
 
     var LoginView = FormView.extend({
@@ -96,7 +117,8 @@
            class : 'nav navbar-nav navbar-right'
      },
         events: {
-            'click a.logout': 'logout'
+            'click a.logout': 'logout',
+            'click a#btn_settings': 'openSettings'
         },
         getContext: function (){
             return {authenticated: app.session.authenticated()};
@@ -105,6 +127,10 @@
             event.preventDefault();
             app.session.delete();
             window.location = '/';
+        },
+
+        openSettings: function (event) {
+            event.preventDefault();
         }
     })
 

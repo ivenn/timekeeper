@@ -97,20 +97,29 @@
     app.models.Task = BaseModel.extend({});
     app.models.Category = BaseModel.extend({});
 
+    var BaseCollection = Backbone.Collection.extend({
+        parse : function (response) {
+            this._next = response.next;
+            this._previous = response.previous;
+            this._count = response._count;
+            return response.result || [];
+        }
+    });
+
     app.collections.ready = $.getJSON(app.apiRoot);
     app.collections.ready.done(function (data) {
-        app.collections.Tasks = Backbone.collection.extend({
+        app.collections.Tasks = BaseCollection.extend({
             model: app.models.Task,
             url: data.tasks,
         });
         app.tasks = new app.collections.Tasks;
-        app.collections.Categories = Backbone.collection.extend({
-            model: app.model.Category,
+        app.collections.Categories = BaseCollection.extend({
+            model: app.models.Category,
             url: data.category
         });
         app.categories = new app.collections.Categories();
-        app.collections.UserSettings = Backbone.collection.extend({
-            model: app.model.UserSetting,
+        app.collections.UserSettings = Backbone.Collection.extend({
+            model: app.models.UserSetting,
             url: data.settings
         });
         app.settings = new app.collections.UserSettings();
