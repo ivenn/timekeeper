@@ -22,8 +22,8 @@
         <% if (tasks != null) { %>
         <div class="tasks">
             <% _.each(tasks.models, function (task) { %>
-                <a href="#task" class="task">
-                    <% task.get('name') %> <br>
+                <a class="task">
+                    <%- task.get('name') %> <br>
                 </a>
             <% }); %>
         </div>

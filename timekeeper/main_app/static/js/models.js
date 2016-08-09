@@ -94,15 +94,19 @@
     })
 
     app.models.UserSetting = BaseModel.extend({});
-    app.models.Task = BaseModel.extend({});
+    app.models.Task = BaseModel.extend({
+        idAttributemodel: 'name'
+    });
     app.models.Category = BaseModel.extend({});
 
     var BaseCollection = Backbone.Collection.extend({
         parse : function (response) {
-            this._next = response.next;
-            this._previous = response.previous;
-            this._count = response._count;
-            return response.result || [];
+
+            // this._next = response.next;
+            // this._previous = response.previous;
+            // this._count = response.count;
+            // return response.results || [];
+            return response;
         }
     });
 
