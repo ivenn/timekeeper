@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Time Keeper</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="shortcut icon" href="static/favicon_tk.png">
+    <link rel="icon" href="static/favicon_tk.png">
+    <!-- <link rel="stylesheet" type="text/css" href="static/styles.css"> -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type='text/html' id='home-template'>
+        <h3>Tasks</h3>
+        <% if (tasks != null) { %>
+        <div class="tasks">
+            <% _.each(tasks.models, function (task) { %>
+                <a class="task">
+                    <%- task.get('name') %> <br>
+                </a>
+            <% }); %>
+        </div>
+        <% } else { %>
+        <h4 class="loading">Loading...</h4>
+        <% } %>
+    </script>
+    <script type=="text/html" id="login-template">
+        <div class="panel panel-default">
+        <div class="panel-body">
+        <form action="" method="post" class="form" role="form">
+          <div class="form-group">
+            <label for="id_username">Username</label>
+            <input id="id_username" type='text' name='username' maxlenght='30' required class='form-control'/>
+          </div>
+          <div class="form-group">
+            <label for="id_password">Password</label>
+            <input id="id_password" type='password' name='password' maxlenght='30' required class='form-control'/>
+          </div>
+            <button type='submit' class="btn btn-default">Login</button>
+        </form>
+        </div></div>
+    </script>
+    <script type='text/html' id='header-menu-template'>
+        <% if (authenticated) { %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> USER_NAME <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li><a href='#' id="btn_settings">Settings</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#" class='logout '>Logout</a></li>
+            </ul>
+          </li>
+        <% } %>
+    </script>
+    <script type="text/html" id="settings-template">
+    <h3>Settings</h3>
+        <label for="id_session_lenght">Session Lenght</label>
+        <input id="id_session_lenght" type='number'>
+        <label for="id_session_break">Session Lenght</label>
+        <input id="id_session_break" type='number'>
+    </script>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid" id="header_menu">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-examnavbar-collapse-1">
+                </button>
+                <a class="navbar-brand">TimeKeeper</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+      <div id="content"></div>
+    </div>
+
+  <script src="static/vendor/jquery-3.1.0.js"></script>
+  <script src="static/vendor/underscore.js"></script>
+  <script src="static/vendor/backbone.js"></script>
+  <script id="config" type="text/json">
+  {
+    "models": {},
+    "collections": {},
+    "views": {},
+    "router": null,
+    "apiRoot": "http://127.0.0.1:8000/api/",
+    "apiLogin": "http://127.0.0.1:8000/api/token/"
+   }
+    </script>
+    <script src="static/js/app.js"></script>
+    <script src="static/js/models.js"></script>
+    <script src="static/js/views.js"></script>
+    <script src="static/js/router.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>
