@@ -139,4 +139,3 @@
     app.views.HeaderView = HeaderView;
 
 })(jQuery, Backbone, _, app);
-
