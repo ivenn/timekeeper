@@ -47,6 +47,19 @@ class AdminMixin(object):
     max_paginate_by = 100
 
 
+class ModelCustomCreateMixin(object):
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
 class UserViewSet(DefaultsMixin, viewsets.ReadOnlyModelViewSet):
     """API endpoint for listing users."""
 
@@ -73,7 +86,9 @@ class UserSettingsView(DefaultsMixin,
         return obj
 
 
-class CategoryViewSet(DefaultsMixin, viewsets.ModelViewSet):
+class CategoryViewSet(DefaultsMixin,
+                      ModelCustomCreateMixin,
+                      viewsets.ModelViewSet):
 
     serializer_class = CategorySerializer
     filter_class = CategoryFilter
@@ -82,20 +97,14 @@ class CategoryViewSet(DefaultsMixin, viewsets.ModelViewSet):
         return Category.objects.filter(user=self.request.user)
 
 
-class TaskViewSet(DefaultsMixin, viewsets.ModelViewSet):
+class TaskViewSet(DefaultsMixin,
+                  ModelCustomCreateMixin,
+                  viewsets.ModelViewSet):
 
     serializer_class = TaskSerializer
     filter_class = TaskFilter
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user)
+
+
