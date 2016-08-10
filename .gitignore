@@ -23,5 +23,3 @@ tmp
 *.sublime-project
 *.sublime-workspace
 
-#temporary ui_appy
-timekeeper/main_app/static/ui_app
