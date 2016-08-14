@@ -91,7 +91,6 @@
     var LoginView = FormView.extend({
         id: 'login',
         templateName: '#login-template',
-        errorTempate: _.template('<span class="error"><%-msg %></span>'),
         events: {
             'submit form' : 'submit'
         },
