@@ -10,7 +10,7 @@ from .forms import CategoryFilter, TaskFilter
 # TODO: replace router's api root with custom one
 @api_view(('GET',))
 def api_root(request, format=None):
-    return Response({ })
+    return Response({})
 
 
 class DefaultsMixin(object):
@@ -25,10 +25,6 @@ class DefaultsMixin(object):
         permissions.IsAuthenticated,
     )
 
-    paginate_by = 25
-    paginate_by_param = 'page_size'
-    max_paginate_by = 100
-
 
 class AdminMixin(object):
 
@@ -41,10 +37,6 @@ class AdminMixin(object):
         permissions.IsAuthenticated,
         permissions.IsAdminUser,
     )
-
-    paginate_by = 25
-    paginate_by_param = 'page_size'
-    max_paginate_by = 100
 
 
 class ModelCustomCreateMixin(object):
